@@ -1,1 +1,66 @@
-1) "origin" refers to the GitHub copy of our repository
+1) "origin" refers to the GitHub/bitbucket copy of our repository. 
+	It's the remote reference to the repository on git hosting provider (GitHub/bitbucket).
+	
+2) git log --abbrev-commit (abbreviated sha)
+3) git log --oneline --graph --decorate (oneline commit messages with ascii graph and any annotations/tags in commit)
+4) git log shaX...shaY (show commit logs only from shaX to shaY)
+5) git log --since="3 days ago"
+6) git log -- <filename> (to see the commit log of a specific file)
+7) git log --follow -- <filepath/filename> (to see the commit log of a file through renames)
+8) git show <commit-sha> (to see the commit details of a specific commit - shows commit id,author,date, commit message as well as the DIFF)
+
+9) create alias of long commands e.g. alias for "git log --all --graph --oneline --decorate" can be created as "git hist" as follows
+   git config --global alias.hist "log --all --graph --oneline --decorate"
+   now "git hist" alias can be used for "git log --all --graph --oneline --decorate"
+
+10) git diff (will diff b/w what has changed in working directory (not yet staged) and what is in staging area)
+	git diff HEAD (diff b/w working directory and "last commit" on this branch)
+	git diff --staged HEAD (diff b/w what has been staged and the "last commit on this branch")
+	git diff -- <file name> (diff b/w working directory and "staging area" for the given file only)
+	git diff <commit sha1> <commit sha2> (diff b/w two random commits)
+	git diff HEAD HEAD^ (diff between HEAD (last commit) and HEAD - 1)
+	git diff master origin/master (diff b/w "local repository master" and "remote repository master")
+	git diff master origin/master -- <file name> (diff b/w "local repository master" and "remote repository master" for the given file)
+	git diff branch1 branch2 (difference b/w branch1 and branch2)
+	
+11) git branch <branch_name> (to create new branch <branch_name>)
+	git branch checkout <branch_name> (to move to branch <branch_name>)
+	git branch -m <branch_name> <new_branch_name> (to rename branch <branch_name>)
+	git branch -d <branch_name> (to delete branch <branch_name>, for obvious reasons, you cannot delete the branch you are currently on)
+
+12) git merge <source_branch> (merge source_branch in current brnach)
+		"Fast Forwarded" merge is possible when there are no changes made in the "target branch"
+	git merge <source_branch> --no-ff (disable fast-forward merge during merge process. This will keep the graph line showing the merge b/w source and target branch)
+	
+13) git pull --rebase origin/master (pull & rebase - pull from remote and rebase with local branch)
+		"During rebase commit from the target branch (the branch with which you want to rebase) are brought into current branch and then changes in the current branch are applied on top of that"
+
+14) git stash (to stash the local change to do something else. "save is default so 'git stash' results in 'git stash save'")
+	git stash apply (to apply the earlier stashed work)
+	git stash list (list all the stashed work)
+	git stash drop (to drop/remove/delete the last stash)
+		By default 'git stash' will only stash the TRACKED files (git ls-files to see the list of tracked files)
+	git stash -u (to stash even the untracked files)
+	git stash pop (to apply a stash and drop - both combined in one command)
+	git stash save "message..." (to stash a change and give a message to identify the stash in stash list)
+	git stash show stash@{1} (to VIEW a stash at a paritcular index. The last stash is indexed to 0 and so on)
+	git stash apply stash@{1} (to APPLY a stash at a paritcular index. The last stash is indexed to 0 and so on)
+	git stash drop stash@{1} (to DROP a stash at a particular index)
+	git stash clear (to REMOVE all the existing stashes)
+	git stash branch <branch_name> (to apply an earlier created stash on a new branch <branch_name>. This command creates the new branch, applies the last stash on the branch and then deletes the stash)
+	
+15) git tag <tag_name> (to create a 'lightweight' tag)
+	git tag --list (list the tags)
+	git show <tag_name> (git shows the commit at that tag)
+	git tag --delete myTag (to delete the tag)
+	git tag -a <tag_name> (to create an annotated tag, with tag message - to say mark the release of a version e.g. v-1.0)
+		Whenever you issue the tag command, it will apply the tag to the current commit.
+	git tag <tag_name> -m "tag message"
+	git diff <tag_1> <tag_2> (to VIEW the difference b/w two tags)
+	git tag -a <tag_name> <commit_hash> (to TAG a specific commit)
+	git tag -a <existing_tag> -f <new_commit_hash> (to MOVE an existing TAG to a different commit)
+	git push origin <tag> (to PUSH the tag to remote repository - git will see if there are any differences, synchronize the commits if necessary, and then push the tag. So not only tag is pushed, but also any commits, associated with the tag are also pushed)
+	git push origin <branch_name> --tags (to synchronize the branch with remote repository and PUSH any/all TAGS missing on the branch in remote repository)
+		In git(GitHub/bitbucket) releases are tracked by tags
+	git push origin :<tag_name> (to DELETE/un-publish the tag from remote repository. Tag is still available in local repository though)
+	
